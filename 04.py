@@ -4,10 +4,11 @@ from sys import stdin
 import re
 
 def part1(pairs: list[tuple]) -> int:
-    return sum((la <= ra and rb <= lb) or (ra <= la and lb <= rb) for la, lb, ra, rb in pairs)
+    return sum((x1 <= y1 and y2 <= x2) or (y1 <= x1 and x2 <= y2) for x1, x2, y1, y2 in pairs)
 
 def part2(pairs: list[tuple]) -> int:
-    return sum((la <= ra <= lb) or (ra <= la <= rb) for la, lb, ra, rb in pairs)
+    return sum((x2 >= y1) and (x1 <= y2) for x1, x2, y1, y2 in pairs)
+    return sum((x1 <= y1 <= x2) or (y1 <= x1 <= y2) for x1, x2, y1, y2 in pairs)
 
 def main():
     print('Day 04')
