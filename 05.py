@@ -22,7 +22,7 @@ def part2(stacks: list[list], moves: list[tuple]) -> int:
     return ''.join(stack[0] for stack in stacks)
 
 def main():
-    print('Day 04')
+    print('Day 05')
 
     stackData, moves = stdin.read().split('\n\n')
     stackData = stackData.split('\n')
