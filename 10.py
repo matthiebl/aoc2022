@@ -17,14 +17,13 @@ def main():
     X = 1
 
     p1 = 0
-
     p2 = []
     R = ''
     for cycle, instruction in enumerate(instructions, start=1):
         if len(R) == 40:
             p2.append(R)
             R = ''
-        currentPixel = len(R) # 0
+        currentPixel = len(R)  # 0
         R += '#' if X-1 <= currentPixel <= X+1 else ' '
 
         if (cycle - 20) % 40 == 0:
@@ -35,6 +34,7 @@ def main():
 
     print(p1)
     print('\n'.join(p2))
+
 
 if __name__ == '__main__':
     main()
