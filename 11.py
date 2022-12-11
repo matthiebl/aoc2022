@@ -9,6 +9,8 @@ def main():
     raw_monkeys = [monkey.split('\n')[1:]
                    for monkey in stdin.read().split('\n\n')]
 
+    common = 1
+
     monkey_rules: list[tuple] = []
     monkey_items: list[list] = []
     for raw_monkey in raw_monkeys:
@@ -17,8 +19,12 @@ def main():
         test = int(raw_monkey[2][21:])
         true = int(raw_monkey[3][29:])
         false = int(raw_monkey[4][30:])
+
         monkey_items.append(items)
         monkey_rules.append((operation, test, true, false))
+
+        common *= test
+
     Monkeys = len(monkey_items)
 
     turns = [0] * Monkeys
@@ -38,6 +44,7 @@ def main():
 
                 if p1:
                     item = item // 3
+                item = item % common
 
                 monkey_items[Then if item % If == 0 else Else].append(item)
                 turns[monkey] += 1
@@ -56,10 +63,6 @@ def main():
 
     for r in range(10000):
         round(False)
-        if r % 100 == 0:
-            for t in turns:
-                print(t)
-            print()
 
     turns.sort()
 
