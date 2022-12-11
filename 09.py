@@ -17,10 +17,10 @@ def main():
 
     def addCoord(a: tuple, b: tuple) -> tuple:
         return (a[0] + b[0], a[1] + b[1])
-    
+
     def dist(a: tuple, b: tuple) -> int:
         return max(abs(a[0] - b[0]), abs(a[1] - b[1]))
-    
+
     P.add(t)
     for d, it in moves:
         for _ in range(it):
@@ -34,7 +34,8 @@ def main():
     # b is chasing after a
     # get bs new pos
     def chase(a: tuple, b: tuple) -> tuple:
-        if dist(a, b) <= 1: return b
+        if dist(a, b) <= 1:
+            return b
         ax, ay = a
         bx, by = b
         if ax == bx:
@@ -45,9 +46,8 @@ def main():
             m = addCoord(b, d)
             if dist(a, m) <= 1:
                 return m
-        
 
-    R = [(0, 4)] * 10 # H 1 2 3 4 5 6 7 8 9
+    R = [(0, 4)] * 10  # H 1 2 3 4 5 6 7 8 9
     P2 = set()
     P2.add(R[9])
 
@@ -58,6 +58,7 @@ def main():
                 R[i] = chase(R[i-1], R[i])
             P2.add(R[9])
     print(len(P2))
+
 
 if __name__ == '__main__':
     main()

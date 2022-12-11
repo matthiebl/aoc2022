@@ -34,11 +34,14 @@ results2 = {
     (SCISSORS, 'Z'): WIN + X,
 }
 
+
 def part1(plays: list) -> int:
     return sum(results1[play] for play in plays)
 
+
 def part2(plays: list) -> int:
     return sum(results2[play] for play in plays)
+
 
 def main():
     print('Day 02')
@@ -47,6 +50,7 @@ def main():
 
     print(f'{part1(plays)=}')
     print(f'{part2(plays)=}')
+
 
 if __name__ == '__main__':
     main()

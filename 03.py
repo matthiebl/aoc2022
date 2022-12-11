@@ -2,6 +2,7 @@
 
 from sys import stdin
 
+
 def getItemValue(item: str) -> int:
     # Lowercase
     if item.islower():
@@ -9,8 +10,10 @@ def getItemValue(item: str) -> int:
     # Uppercase
     return ord(item) - ord('A') + 1 + 26
 
+
 def part1(bags: list) -> int:
     return sum(getItemValue(set(bag[:len(bag)//2]).intersection(set(bag[len(bag)//2:])).pop()) for bag in bags)
+
 
 def part2(groupedBags: list) -> int:
     total = 0
@@ -20,6 +23,7 @@ def part2(groupedBags: list) -> int:
             common = common.intersection(set(bag))
         total += getItemValue(common.pop())
     return total
+
 
 def main():
     print('Day 03')
