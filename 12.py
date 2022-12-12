@@ -21,7 +21,7 @@ def main():
         except:
             pass
 
-    def dfs(S):
+    def bfs(S):
         V = set()
         queue = [[S]]
         while len(queue) > 0:
@@ -40,14 +40,14 @@ def main():
                         and height_map[r+dr][c+dc] in H[:h+2]):
                     queue.append([coord for coord in path] + [(r+dr, c+dc)])
                     V.add((r+dr, c+dc))
-    p1 = dfs(S)
+    p1 = bfs(S)
     print(f'{p1=}')
 
     dists = [p1]
     for r, row in enumerate(height_map):
         for c, col in enumerate(row):
             if col == 'a':
-                dist = dfs((r, c))
+                dist = bfs((r, c))
                 if dist:
                     dists.append(dist)
     dists.sort()
