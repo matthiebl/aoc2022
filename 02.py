@@ -1,6 +1,7 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.10
 
-from sys import stdin
+from sys import argv
+import advent as adv
 
 WIN = 6
 DRAW = 3
@@ -35,22 +36,18 @@ results2 = {
 }
 
 
-def part1(plays: list) -> int:
-    return sum(results1[play] for play in plays)
-
-
-def part2(plays: list) -> int:
-    return sum(results2[play] for play in plays)
-
-
-def main():
+def main(file: str) -> None:
     print('Day 02')
 
-    plays = [(line[0], line[2]) for line in stdin.read().split('\n')]
+    plays = adv.input_as_lines(file, map=lambda s: (s[0], s[2]))
 
-    print(f'{part1(plays)=}')
-    print(f'{part2(plays)=}')
+    p1 = sum(results1[play] for play in plays)
+    print(p1)
+
+    p2 = sum(results2[play] for play in plays)
+    print(p2)
 
 
 if __name__ == '__main__':
-    main()
+    file = argv[1] if len(argv) >= 2 else '02.in'
+    main(file)
