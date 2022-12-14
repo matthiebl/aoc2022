@@ -1,9 +1,10 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.10
 
-from sys import stdin
+from sys import argv
+import advent as adv
 
 
-def getItemValue(item: str) -> int:
+def item_value(item: str) -> int:
     # Lowercase
     if item.islower():
         return ord(item) - ord('a') + 1
@@ -11,29 +12,21 @@ def getItemValue(item: str) -> int:
     return ord(item) - ord('A') + 1 + 26
 
 
-def part1(bags: list) -> int:
-    return sum(getItemValue(set(bag[:len(bag)//2]).intersection(set(bag[len(bag)//2:])).pop()) for bag in bags)
-
-
-def part2(groupedBags: list) -> int:
-    total = 0
-    for group in groupedBags:
-        common = set(group[0])
-        for bag in group:
-            common = common.intersection(set(bag))
-        total += getItemValue(common.pop())
-    return total
-
-
-def main():
+def main(file: str) -> None:
     print('Day 03')
 
-    bags = stdin.read().split('\n')
-    groupedBags = [bags[i:i+3] for i in range(0, len(bags) - 1, 3)]
+    bags = adv.input_as_lines(file)
+    grouped_bags = adv.groups_of(bags, 3)
 
-    print(f'{part1(bags)=}')
-    print(f'{part2(groupedBags)=}')
+    p1 = sum(item_value(set(bag[:len(bag) // 2]).intersection(set(bag[len(bag) // 2:])).pop())
+             for bag in bags)
+    print(p1)
+
+    p2 = sum(item_value(set(group[0]).intersection(set(group[1])).intersection(set(group[2])).pop())
+             for group in grouped_bags)
+    print(p2)
 
 
 if __name__ == '__main__':
-    main()
+    file = argv[1] if len(argv) >= 2 else '03.in'
+    main(file)

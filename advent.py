@@ -3,7 +3,7 @@
 from sys import argv
 from os import chmod
 from aocd import get_data
-from typing import Callable, TypeVar
+from typing import Callable, Iterable, TypeVar
 from ast import literal_eval
 
 YEAR = 2022
@@ -31,6 +31,10 @@ def double_sep(
     group: Callable[[list], B] = list
 ) -> list['B[A]']:
     return [group(map(b) for b in a.split(sep2)) for a in s.split(sep1)]
+
+
+def groups_of(it: Iterable[A], by: int) -> list[Iterable[A]]:
+    return [it[i:i + by] for i in range(0, len(it), by)]
 
 
 def array_2D(base: A, width: int, height: int) -> list[list[A]]:
