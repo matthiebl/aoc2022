@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 
+from sys import argv
+from os import chmod
+from aocd import get_data
 from typing import Callable, TypeVar
+from ast import literal_eval
 
+YEAR = 2022
 A = any
 B = any
 
@@ -32,6 +37,50 @@ def array_2D(base: A, width: int, height: int) -> list[list[A]]:
     return [[base] * width for _ in range(height)]
 
 
+def array_3D(base: A, x: int, y: int, z: int) -> list[list[list[A]]]:
+    return [array_2D(base, x, y) for _ in range(z)]
+
+
+def list_eval(s: str) -> list:
+    return literal_eval(s)
+
+
+def create_input(day: str) -> None:
+    with open(f'{day}.in', 'w') as f:
+        f.write(get_data(day=int(day), year=YEAR))
+
+
+def create_script(day: str) -> None:
+    with open(f'{day}.py', 'w') as f:
+        f.write(
+            f"""#!/usr/bin/env python3.10
+
+from sys import argv
+import advent as adv
+
+def main(file: str) -> None:
+    print('Day {day}')
+
+    data = adv.input_as_lines(file)
+
 if __name__ == '__main__':
-    print('This module isn\'t supposed to be run as a program...')
-    exit(1)
+    file = argv[1] if len(argv) >= 2 else '{day}.in'
+    main(file)
+""")
+    chmod(f'{day}.py', 0o744)
+
+
+if __name__ == '__main__':
+    if len(argv) != 3 or argv[1] not in ['script', 'input', 'setup'] or not argv[2].isdigit():
+        print(f'Usage: \'{argv[0]} [command] <day>')
+        exit(1)
+    command = argv[1]
+    day = argv[2]
+
+    if command == 'script':
+        create_script(day)
+    elif command == 'input':
+        create_input(day)
+    elif command == 'setup':
+        create_script(day)
+        create_input(day)

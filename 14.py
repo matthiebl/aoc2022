@@ -21,7 +21,8 @@ def getMove(x, y, cave):
 def main(file):
     print(f'Day {DAY}')
 
-    paths = adv.input_as_lines(file, map=lambda s: adv.double_sep(s, ' -> ', ',', map=int, group=tuple))
+    def mapper(s): return adv.double_sep(s, ' -> ', ',', map=int, group=tuple)
+    paths: list[list] = adv.input_as_lines(file, map=mapper)
 
     maxY = 0
     for path in paths:
