@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.10
 
 from sys import argv
 import advent as adv
@@ -24,40 +24,44 @@ def main(file):
     def mapper(s): return adv.double_sep(s, ' -> ', ',', map=int, group=tuple)
     paths: list[list] = adv.input_as_lines(file, map=mapper)
 
-    maxY = 0
+    my = 0
+    filled = set()
     for path in paths:
-        for _, y in path:
-            maxY = max(y, maxY)
+        for (x1, y1), (x2, y2) in zip(path, path[1:]):
+            x1, x2 = sorted([x1, x2])
+            y1, y2 = sorted([y1, y2])
+            for xx in range(x1, x2 + 1):
+                for yy in range(y1, y2 + 1):
+                    filled.add((xx, yy))
+                    my = max(my, yy)
 
-    cave = adv.array_2D('.', 2 * maxY + 5, maxY + 2)
-
-    for path in paths:
-        x1, y1 = path.pop(0)
-        while len(path) > 0:
-            x2, y2 = path.pop(0)
-            for x in range(x1, x2 + (1 if x1 <= x2 else -1), 1 if x1 <= x2 else -1):
-                for y in range(y1, y2 + (1 if y1 <= y2 else -1), 1 if y1 <= y2 else -1):
-                    cave[y][x - 500 + maxY + 2] = '#'
-            x1, y1 = x2, y2
-
-    cave[0][500 - 500 + maxY + 2] = '+'
-
+    into_abyss = False
     placed = 0
-    p1 = False
     while True:
-        sandx, sandy = 500 - 500 + maxY + 2, 0
-
-        while getMove(sandx, sandy, cave) is not None:
-            sandx, sandy = getMove(sandx, sandy, cave)
-
-        if not p1 and sandy == maxY + 1:
-            print(placed)
-            p1 = True
-        cave[sandy][sandx] = 'o'
-        placed += 1
-        if sandy == 0:
+        x, y = 500, 0
+        if (x, y) in filled:
             break
-
+        while True:
+            if y == my + 1:
+                if not into_abyss:
+                    print(placed)
+                    into_abyss = True
+                filled.add((x, y))
+                break
+            if (x, y + 1) not in filled:
+                y += 1
+                continue
+            if (x - 1, y + 1) not in filled:
+                x -= 1
+                y += 1
+                continue
+            if (x + 1, y + 1) not in filled:
+                x += 1
+                y += 1
+                continue
+            filled.add((x, y))
+            break
+        placed += 1
     print(placed)
 
 

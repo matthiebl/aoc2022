@@ -2,6 +2,7 @@
 
 from sys import argv
 from os import chmod
+from re import findall
 from aocd import get_data
 from typing import Callable, Iterable, TypeVar
 from ast import literal_eval
@@ -31,6 +32,10 @@ def double_sep(
     group: Callable[[list], B] = list
 ) -> list['B[A]']:
     return [group(map(b) for b in a.split(sep2)) for a in s.split(sep1)]
+
+
+def find_digits(s: str, map: Callable[[str], A] = int, group: Callable[[str], B] = list) -> 'B[A]':
+    return group(map(digit) for digit in findall(r'(-[0-9]+)', s))
 
 
 def groups_of(it: Iterable[A], by: int) -> list[Iterable[A]]:
