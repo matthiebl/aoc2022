@@ -17,8 +17,7 @@ def main(file: str) -> None:
     Y_RANGE = 20 if file == '15.ex' else 4000000
     Y_CHECK = 10 if file == '15.ex' else 2000000
 
-    def mapper(s): return adv.double_sep(s[12:], ': closest beacon is at x=', ', y=', map=int, group=tuple)
-    sensors = adv.input_as_lines(file, map=mapper)
+    sensors = adv.input_as_lines(file, map=lambda s: adv.find_digits(s))
 
     missing_beacon = None
     for Y in range(Y_RANGE + 1):
@@ -26,7 +25,7 @@ def main(file: str) -> None:
         invalid_ranges = []
 
         # Find all the ranges along y = Y where a sensor can reach
-        for (sx, sy), (bx, by) in sensors:
+        for sx, sy, bx, by in sensors:
             dist = man_dist(sx, sy, bx, by)
             if not (sy - dist <= Y <= sy + dist):
                 continue

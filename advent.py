@@ -35,7 +35,7 @@ def double_sep(
 
 
 def find_digits(s: str, map: Callable[[str], A] = int, group: Callable[[str], B] = list) -> 'B[A]':
-    return group(map(digit) for digit in findall(r'(-[0-9]+)', s))
+    return group(map(digit) for digit in findall(r'(-?[0-9]+)', s))
 
 
 def groups_of(it: Iterable[A], by: int) -> list[Iterable[A]]:
