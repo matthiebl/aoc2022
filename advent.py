@@ -54,6 +54,11 @@ def list_eval(s: str) -> list:
     return literal_eval(s)
 
 
+def sum_max(amount: int, it: Iterable[int], key: Callable[[int], int] = int) -> int:
+    it = sorted(it, key=key)
+    return sum(it[-min(amount, len(it)):])
+
+
 def create_input(day: str) -> None:
     with open(f'{day}.in', 'w') as f:
         f.write(get_data(day=int(day), year=YEAR))
