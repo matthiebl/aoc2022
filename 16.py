@@ -14,28 +14,34 @@ def main(file: str) -> None:
     F = {valve: val for valve, val, _ in data}
     G = {valve: leads for valve, _, leads in data}
 
-    def bfs(S, t, O):
+    M = {}
+
+    def bfs(S, t):
+        if (S, t) in M:
+            return M[(S, t)]
         R = []
         V = set()
         queue = [(S, t)]
         while len(queue) > 0:
-            v, t = queue.pop(0)
-            if v in V or t == 0: continue
+            v, tt = queue.pop(0)
+            if v in V or tt == 0: continue
 
             V.add(v)
-            vtf = (v, t - 1, (t - 1) * F[v])
-            if v not in O and vtf[-1] > 0:
+            vtf = (v, tt - 1, (tt - 1) * F[v])
+            if vtf[-1] > 0:
                 R.append(vtf)
 
             for valve in G[v]:
-                queue.append((valve, t - 1))
+                queue.append((valve, tt - 1))
+        M[(S, t)] = R
         return R
 
     def simulate(s: str, t: int, O: set):
         if t <= 0: return 0
 
         best = 0
-        for valve, t, flow in bfs(s, t, O):
+        for valve, t, flow in bfs(s, t):
+            if valve in O: continue
             O_ = O.copy()
             O_.add(valve)
             best = max(flow + simulate(valve, t, O_), best)
@@ -47,20 +53,16 @@ def main(file: str) -> None:
         if t2 <= 0: return simulate(s1, t1, O)
 
         best = 0
-        options1 = bfs(s1, t1, O)
-        if sum(op[-1] for op in options1) <= best:
-            return best
-        for v1, tt1, f1 in options1:
+        for v1, tt1, f1 in bfs(s1, t1):
+            if v1 in O: continue
             # print(f'{v1=} {tt1=} {f1=}')
             O_ = O.copy()
             O_.add(v1)
             # print(O_, s2, t2, bfs(s2, t2, O_))
             # best = max(f1 + simulate_help(v1, t1, s2, t2, O_), best)
 
-            options2 = bfs(s2, t2, O_)
-            if f1 + sum(op[-1] for op in options2) <= best:
-                return best
-            for v2, tt2, f2 in bfs(s2, t2, O_):
+            for v2, tt2, f2 in bfs(s2, t2):
+                if v2 in O_: continue
                 # print(f'    {v2=} {tt2=} {f2=}')
                 O__ = O_.copy()
                 O__.add(v2)
