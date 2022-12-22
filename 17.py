@@ -22,11 +22,10 @@ def main(file: str) -> None:
     airi = 0
     blocki = 0
 
-    for round in range(1_000_000_000_000):
+    for round in range(201_000):
         if round == 2022:
             print(f'p1={top}')
-        if round % 1_000_000 == 0:
-            print(round)
+
         block = [(x, y + top + 4) for x, y in blocks[blocki % len(blocks)]]
         blocki += 1
 
@@ -45,7 +44,17 @@ def main(file: str) -> None:
                     placed.add((x, y))
                 break
             block = [(x, y - 1) for x, y in block]
+
+    top += ((1_000_000_000_000 - 201_000) % 171_000) * 262_000
     print(top)
+    print(1514285714288)
+
+    # arr = adv.array_2D('.', 7, top + 4)
+    # for x, y in placed:
+    #     arr[y][x] = '#'
+
+    # for line in arr:
+    #     print(''.join(line))
 
 
 if __name__ == '__main__':
