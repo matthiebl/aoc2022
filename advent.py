@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from sys import argv
-from os import chmod
+from os import chmod, path
 from re import findall
 from aocd import get_data
 from typing import Callable, Iterable, TypeVar
@@ -87,6 +87,8 @@ def create_input(day: str) -> None:
 
 
 def create_script(day: str) -> None:
+    if path.exists(f'{day}.py') and input(f'{day}.py already exists. Are you sure you want to overwrite? ') != 'y':
+        return
     with open(f'{day}.py', 'w') as f:
         f.write(
             f"""#!/usr/bin/env python3.10
