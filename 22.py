@@ -55,7 +55,6 @@ def main(file: str) -> None:
                 if c == '.':
                     pos[:] = [xx, y]
                     return True
-            print('Error 1')
         if map[y][x + 1] == '#':
             return False
         if map[y][x + 1] == '.':
@@ -72,7 +71,6 @@ def main(file: str) -> None:
                 if c == '.':
                     pos[:] = [xx, y]
                     return True
-            print('Error 2')
         if map[y][x - 1] == '#':
             return False
         if map[y][x - 1] == '.':
@@ -89,7 +87,6 @@ def main(file: str) -> None:
                 if c == '.':
                     pos[:] = [x, yy]
                     return True
-            print('Error 3')
         if map[y + 1][x] == '#':
             return False
         if map[y + 1][x] == '.':
@@ -106,7 +103,6 @@ def main(file: str) -> None:
                 if c == '.':
                     pos[:] = [x, yy]
                     return True
-            print('Error 4')
         if map[y - 1][x] == '#':
             return False
         if map[y - 1][x] == '.':
@@ -150,7 +146,7 @@ def main(file: str) -> None:
         x, y = pos
         if facing[0] == '>':
             if x == (3 * SIZE - 1) and 0 <= y < (SIZE):
-                yy = (2 * SIZE) + (SIZE - 1) - y
+                yy = (3 * SIZE - 1) - y
                 if map[yy][(2 * SIZE - 1)] in '.^>v<':
                     pos[:] = [(2 * SIZE - 1), yy]
                     facing[0] = '<'
@@ -167,7 +163,7 @@ def main(file: str) -> None:
                     pos[:] = [(3 * SIZE - 1), yy]
                     facing[0] = '<'
                 return map[yy][(3 * SIZE - 1)] in '.^>v<'
-            if x == (SIZE - 1) and (3 * SIZE) <= y < 200:
+            if x == (SIZE - 1) and (3 * SIZE) <= y < (4 * SIZE):
                 xx = y - (2 * SIZE)
                 if map[(3 * SIZE - 1)][xx] in '.^>v<':
                     pos[:] = [xx, (3 * SIZE - 1)]
@@ -190,13 +186,13 @@ def main(file: str) -> None:
                     facing[0] = 'v'
                 return map[(2 * SIZE)][xx] in '.^>v<'
             if x == 0 and (2 * SIZE) <= y < (3 * SIZE):
-                yy = (2 * SIZE - 1) - y
+                yy = (3 * SIZE - 1) - y
                 if map[yy][(SIZE)] in '.^>v<':
                     pos[:] = [(SIZE), yy]
                     facing[0] = '>'
                 return map[yy][(SIZE)] in '.^>v<'
-            if x == 0 and (3 * SIZE) <= y < 200:
-                xx = (4 * SIZE - 1) - y + (SIZE)
+            if x == 0 and (3 * SIZE) <= y < (4 * SIZE):
+                xx = y - (2 * SIZE)
                 if map[0][xx] in '.^>v<':
                     pos[:] = [xx, 0]
                     facing[0] = 'v'
