@@ -59,6 +59,28 @@ def sum_max(amount: int, it: Iterable[int], key: Callable[[int], int] = int) -> 
     return sum(it[-min(amount, len(it)):])
 
 
+def min_max_x_y(it: Iterable[tuple[int, int]]) -> tuple[int, int, int, int]:
+    min_x = min(x for x, y in it)
+    min_y = min(y for x, y in it)
+    max_x = max(x for x, y in it)
+    max_y = max(y for x, y in it)
+    return (min_x, min_y, max_x, max_y)
+
+
+def array_collect(it: Iterable[tuple[int, int]]) -> list[list[str]]:
+    x1, y1, x2, y2 = min_max_x_y(it)
+    array = array_2D('.', x2 - x1 + 1, y2 - y1 + 1)
+    for x, y in it:
+        array[y - y1][x - x1] = '#'
+    return array
+
+
+def array_visualise(arr: list[list[str]]) -> None:
+    for row in arr:
+        print(''.join(row))
+    print()
+
+
 def create_input(day: str) -> None:
     with open(f'{day}.in', 'w') as f:
         f.write(get_data(day=int(day), year=YEAR))
