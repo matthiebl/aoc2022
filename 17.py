@@ -7,7 +7,7 @@ import advent as adv
 def main(file: str) -> None:
     print('Day 17')
 
-    current = adv.read_input(file)
+    jet = adv.read_input(file)
     blocks = [
         [(2, 0), (3, 0), (4, 0), (5, 0)],
         [(3, 2), (2, 1), (3, 1), (4, 1), (3, 0)],
@@ -22,15 +22,15 @@ def main(file: str) -> None:
     airi = 0
     blocki = 0
 
-    for round in range(201_000):
-        if round == 2022:
+    step = 0
+    while step < 3441:
+        if step == 2022:
             print(f'p1={top}')
-
         block = [(x, y + top + 4) for x, y in blocks[blocki % len(blocks)]]
         blocki += 1
 
         while True:
-            air = current[airi % len(current)]
+            air = jet[airi % len(jet)]
             airi += 1
 
             if air == '>' and all([x < 6 and (x + 1, y) not in placed for x, y in block]):
@@ -44,17 +44,36 @@ def main(file: str) -> None:
                     placed.add((x, y))
                 break
             block = [(x, y - 1) for x, y in block]
+        step += 1
 
-    top += ((1_000_000_000_000 - 201_000) % 171_000) * 262_000
-    print(top)
-    print(1514285714288)
+    old_top = top
+    amount = (1_000_000_000_000 - step) // 1710
+    new_top = top + 2620 * amount
+    step += 1710 * amount
 
-    # arr = adv.array_2D('.', 7, top + 4)
-    # for x, y in placed:
-    #     arr[y][x] = '#'
+    while step < 1_000_000_000_000:
+        block = [(x, y + top + 4) for x, y in blocks[blocki % len(blocks)]]
+        blocki += 1
 
-    # for line in arr:
-    #     print(''.join(line))
+        while True:
+            air = jet[airi % len(jet)]
+            airi += 1
+
+            if air == '>' and all([x < 6 and (x + 1, y) not in placed for x, y in block]):
+                block = [(x + 1, y) for x, y in block]
+            if air == '<' and all([x > 0 and (x - 1, y) not in placed for x, y in block]):
+                block = [(x - 1, y) for x, y in block]
+
+            if any([(x, y - 1) in placed for x, y in block]):
+                for x, y in block:
+                    top = max(top, y)
+                    placed.add((x, y))
+                break
+            block = [(x, y - 1) for x, y in block]
+        step += 1
+
+    p2 = new_top + (top - old_top)
+    print(f'{p2=}')
 
 
 if __name__ == '__main__':
