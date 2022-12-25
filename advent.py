@@ -68,7 +68,16 @@ def min_max_x_y(it: Iterable[tuple[int, int]]) -> tuple[int, int, int, int]:
 
 
 def array_collect(it: Iterable[tuple[int, int]]) -> list[list[str]]:
+    return array_collect(it, min_max_x_y(it))
     x1, y1, x2, y2 = min_max_x_y(it)
+    array = array_2D('.', x2 - x1 + 1, y2 - y1 + 1)
+    for x, y in it:
+        array[y - y1][x - x1] = '#'
+    return array
+
+
+def array_collect(it: Iterable[tuple[int, int]], mmxy: tuple[int, int, int, int]) -> list[list[str]]:
+    x1, y1, x2, y2 = mmxy
     array = array_2D('.', x2 - x1 + 1, y2 - y1 + 1)
     for x, y in it:
         array[y - y1][x - x1] = '#'
